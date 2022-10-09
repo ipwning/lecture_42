@@ -17,15 +17,27 @@ class Graph:
                 self.m_lEdges.append(Edge(int(elem[0]), int(elem[1]), elem[2]))
     def getEClosureS(self, s_):
         r = set()
-        # TODO
+        r.add(s_)
+        edges = self.m_lEdges
+        for i in range(len(edges)):
+            for j in range(i, len(edges)):
+                for p in list(r):
+                    if p == edges[j].m_nFrom and edges[j].m_sInput == '':
+                        r.add(edges[j].m_nTo)
         return r
     def getEClosureT(self, t_):
         r = set()
-        # TODO
+        for i in t_:
+            for p in self.getEClosureS(i):
+                r.add(p)
         return r
     def getMove(self, t_, a_):
         r = set()
-        # TODO
+        edges = self.m_lEdges
+        for edge in edges:
+            for frm in t_:
+                if frm == edge.m_nFrom and edge.m_sInput == a_:
+                    r.add(edge.m_nTo)
         return r
     def print(self):
         for e in self.m_lEdges:
