@@ -48,8 +48,19 @@ if __name__ == '__main__':
     NFA = Graph(fp)
     DFA = Graph()
     Dstate = []
-    T = 0
 
     Dstate.append(NFA.getEClosureS(0))
-    #TODO
+    pos = set()
+    for i in NFA.m_lEdges:
+        if i.m_sInput != '':
+            pos.add(i.m_sInput)
+    pos = sorted(pos)
+    
+    for i, state in enumerate(Dstate):
+        for _p in pos:
+            s = NFA.getEClosureT(NFA.getMove(state, _p))
+            if s not in Dstate:
+                Dstate.append(s)
+            DFA.addEdge(i, Dstate.index(s), _p)
+            
     DFA.print()
